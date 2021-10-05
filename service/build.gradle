@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'by.narkevich.epam'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":repository")
+    implementation 'org.springframework:spring-jdbc-core:5.3.10'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+}

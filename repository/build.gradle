@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    ver = [springVersion = '5.3.10']
+}
+
+
+
+group 'by.narkevich.epam'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation project(":service")
+    implementation 'org.springframework:spring-core:5.3.10'
+    implementation 'org.springframework:spring-jdbc:5.3.10'
+    implementation 'org.springframework:spring-context:5.3.10'
+    implementation 'org.springframework:spring-webmvc:5.3.10'
+    implementation 'org.postgresql:postgresql:42.2.24'
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+}

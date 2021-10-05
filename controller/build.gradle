@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+}
+
+group 'by.narkevich.epam'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':service')
+    implementation 'org.springframework:spring-web:4.3.11.RELEASE'
+}
