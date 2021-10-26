@@ -10,8 +10,11 @@ import java.util.List;
 public interface CertificateConverter {
 
     CertificateDto toDTO(Certificate certificate);
+
     Certificate toEntity(CertificateDto certificateDto);
-    List<TagDto> toDTOs(List<Tag> tags);
+
     List<Tag> toEntities(List<TagDto> tagsDto);
+
+    List<TagDto> toDTOs(List<Tag> tags);
 
 }

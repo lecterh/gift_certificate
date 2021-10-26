@@ -5,10 +5,12 @@ import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Tag;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CertificateConverterImpl implements CertificateConverter {
 
     @Override
@@ -23,7 +25,7 @@ public class CertificateConverterImpl implements CertificateConverter {
         certificateDto.setDuration(certificate.getDuration());
         certificateDto.setCreate(certificate.getCreate());
         certificateDto.setUpdate(certificate.getUpdate());
-        certificateDto.setTags(certificate.getTags());
+        certificateDto.setTags(toDTOs(certificate.getTags()));
 
         return certificateDto;
     }
@@ -40,34 +42,44 @@ public class CertificateConverterImpl implements CertificateConverter {
         certificate.setDuration(certificateDto.getDuration());
         certificate.setCreate(certificateDto.getCreate());
         certificate.setUpdate(certificateDto.getUpdate());
-        certificate.setTags(certificateDto.getTags());
+        certificate.setTags(toEntities(certificateDto.getTags()));
 
         return certificate;
     }
 
     @Override
-    public List<TagDto> toDTOs(List<Tag> tags) {
-        List<TagDto> tagsDto = new ArrayList<>(tags.size());
-
-        for (Tag tmpTag : tags) {
-            tagsDto.add(fromTagToDto(tmpTag));
+    public List<Tag> toEntities(List<TagDto> tagsDto) {
+        if (tagsDto == null) {
+            return null;
         }
 
-        return tagsDto;
+        List<Tag> list = new ArrayList<>(tagsDto.size());
+        for (TagDto tagDto : tagsDto) {
+            list.add(tagDtoToTag(tagDto));
+        }
+
+        return list;
     }
 
     @Override
-    public List<Tag> toEntities(List<TagDto> tagsDto) {
-        List<Tag> tags = new ArrayList<>(tagsDto.size());
-
-        for (TagDto tmpTagsDto : tagsDto) {
-            tags.add(fromDtoToTag(tmpTagsDto));
+    public List<TagDto> toDTOs(List<Tag> tags) {
+        if (tags == null) {
+            return null;
         }
 
-        return tags;
+        List<TagDto> list = new ArrayList<>(tags.size());
+        for (Tag tag : tags) {
+            list.add(tagToTagDto(tag));
+        }
+
+        return list;
     }
 
-    public Tag fromDtoToTag(TagDto tagDto) {
+    private Tag tagDtoToTag(TagDto tagDto) {
+        if (tagDto == null) {
+            return null;
+        }
+
         Tag tag = new Tag();
 
         tag.setId(tagDto.getId());
@@ -76,7 +88,11 @@ public class CertificateConverterImpl implements CertificateConverter {
         return tag;
     }
 
-    public TagDto fromTagToDto(Tag tag) {
+    private TagDto tagToTagDto(Tag tag) {
+        if (tag == null) {
+            return null;
+        }
+
         TagDto tagDto = new TagDto();
 
         tagDto.setId(tag.getId());
@@ -84,4 +100,6 @@ public class CertificateConverterImpl implements CertificateConverter {
 
         return tagDto;
     }
+
 }
+

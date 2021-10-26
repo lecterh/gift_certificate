@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,20 +26,22 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     private static final String CREATE =
             "insert into certificate (name, description, " +
                     "price, duration, create_date, last_update_date) " +
-                    "values(?, ?, ?, ?, ?, ?);";
+                    "values(?, ?, ?, ?, ?, ?)";
 
-    private static final String GET_ALL = "select * from certificate;";
+    private static final String UPDATE = "update certificate set name = ?, description = ?, " +
+            "price = ?, duration = ?, last_update_date = ? where id = ?";
 
-    private static final String UPDATE = "update certificate set name=?, set description=?" +
-            "set price=? set duration=?, set last_update_date=? where id=?;";
+    private static final String DELETE = "delete from certificate where id=?";
+
+    private static final String GET_ALL = "select id, name, description, price, " +
+            "create_date, last_update_date from certificate";
 
     private static final String GET_BY_ID = "select id, name, description, price, duration," +
-            "create_date, last_update_date where id=?;";
+            "create_date, last_update_date from certificate where id=?";
 
     private static final String GET_BY_NAME = "select id, name, description, price, duration," +
-            "create_date, last_update_date where name=?;";
+            "create_date, last_update_date from certificate where name=?";
 
-    private static final String DELETE = "delete from certificate where id=?;";
 
 
     @Override
@@ -51,8 +53,8 @@ public class CertificateRepositoryImpl implements CertificateRepository {
             preparedStatement.setString(2, certificate.getDescription());
             preparedStatement.setBigDecimal(3, certificate.getPrice());
             preparedStatement.setInt(4, certificate.getDuration());
-            preparedStatement.setTimestamp(5, Timestamp.valueOf(certificate.getCreate()));
-            preparedStatement.setTimestamp(6, Timestamp.valueOf(certificate.getUpdate()));
+            preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             return preparedStatement;
         }, keyHolder);
 
@@ -77,7 +79,7 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     }
 
     @Override
-    public Optional<Certificate> getById(long id) {
+    public Optional<Certificate> getById(Long id) {
 
         Optional<Certificate> certificate = jdbcTemplate.query(GET_BY_ID, certificateMapper, id).stream().findAny();
         return certificate;
@@ -86,8 +88,14 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     @Override
     public List<Certificate> getByName(String name) {
 
-        /*List<Certificate> listCertificates = new ArrayList<>();
-        listCertificates = jdbcTemplate.queryForList(GET_BY_NAME, Certificate.class);*/
-        return jdbcTemplate.queryForList(GET_BY_NAME, Certificate.class);
+        return jdbcTemplate.query(GET_BY_NAME, certificateMapper);
+    }
+
+    @Override
+    public List<Certificate> getAll() {
+
+        return jdbcTemplate.query(GET_ALL, certificateMapper);
+
     }
 }
+

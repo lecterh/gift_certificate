@@ -1,5 +1,5 @@
-rootProject.name = 'GiftSertificate'
+rootProject.name = 'GiftCertificate'
+include 'controller'
 include 'repository'
 include 'service'
-include 'controller'
 

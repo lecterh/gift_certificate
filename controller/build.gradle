@@ -1,15 +1,9 @@
-plugins {
-    id 'java'
-}
-
-group 'by.narkevich.epam'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'war'
+war.archiveName "certificate.war"
 
 dependencies {
+
     implementation project(':service')
-    implementation 'org.springframework:spring-web:4.3.11.RELEASE'
+    implementation project(':repository')
+
 }

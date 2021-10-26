@@ -3,7 +3,9 @@ package com.epam.esm.converter.impl;
 import com.epam.esm.converter.TagConverter;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TagConverterImpl implements TagConverter {
 
     @Override
@@ -26,3 +28,4 @@ public class TagConverterImpl implements TagConverter {
         return tag;
     }
 }
+

@@ -6,17 +6,23 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface TagRepository {
+
+    List<Tag> getAll();
 
     Tag add(Tag tag);
 
+    void delete(Long id);
+
+    void insertTag(Long certificateId, Long tagId);
+
     Tag update(Tag tag);
 
-    Optional<Tag> getById(long id);
+    Optional<Tag> getById(Long id);
 
     List<Tag> getByName(String name);
 
-    List<Tag> getByCertificateId(long id);
+    List<Tag> getByCertificate(Long id);
 
 }
+

@@ -8,17 +8,14 @@ public interface CertificateService {
 
     List<CertificateDto> getAll();
 
-    CertificateDto findById(long id);
+    CertificateDto findById(Long id);
 
-    CertificateDto findByName(String name);
+    CertificateDto create(CertificateDto certificateDto);
 
-    CertificateDto add(CertificateDto certificateDto);
+    void delete(Long id);
 
-    void delete(long id);
-
-    void delete(String name);
-
-    CertificateDto update(long id);
+    CertificateDto update(CertificateDto certificateDto);
 
 
 }
+
