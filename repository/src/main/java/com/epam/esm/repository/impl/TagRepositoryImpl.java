@@ -89,9 +89,9 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public List<Tag> getByName(String name) {
+    public Optional<Tag> getByName(String name) {
 
-        return jdbcTemplate.queryForList(GET_BY_NAME, Tag.class);
+        return jdbcTemplate.query(GET_BY_NAME, tagMapper, name).stream().findAny();
     }
 
     @Override

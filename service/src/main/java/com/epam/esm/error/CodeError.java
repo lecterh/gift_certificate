@@ -14,6 +14,8 @@ public class CodeError {
     public static final String ERROR_0400159 = "0400159";
     public static final String ERROR_0400160 = "0400160";
     public static final String ERROR_0400161 = "0400161";
+    public static final String ERROR_0400162 = "0400162";
+    public static final String ERROR_0400163 = "0400163";
 
     public static final String ERROR_0500150 = "0500150";
     public static final String ERROR_0500151 = "0500151";

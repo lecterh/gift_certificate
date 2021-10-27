@@ -29,12 +29,12 @@ public class CertificateRepositoryImpl implements CertificateRepository {
                     "values(?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE = "update certificate set name = ?, description = ?, " +
-            "price = ?, duration = ?, last_update_date = ? where id = ?";
+            "price = ?, duration = ?, create_date = ?, last_update_date = ? where id = ?";
 
     private static final String DELETE = "delete from certificate where id=?";
 
     private static final String GET_ALL = "select id, name, description, price, " +
-            "create_date, last_update_date from certificate";
+            "duration, create_date, last_update_date from certificate";
 
     private static final String GET_BY_ID = "select id, name, description, price, duration," +
             "create_date, last_update_date from certificate where id=?";
@@ -59,6 +59,9 @@ public class CertificateRepositoryImpl implements CertificateRepository {
         }, keyHolder);
 
         certificate.setId(((Number) keyHolder.getKeys().get("id")).longValue());
+        certificate.setCreateDate(LocalDateTime.now());
+        certificate.setUpdateDate(LocalDateTime.now());
+
         return certificate;
     }
 
@@ -66,7 +69,8 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     public Certificate update(Certificate certificate) {
 
         jdbcTemplate.update(UPDATE, certificate.getName(), certificate.getDescription(), certificate.getPrice(),
-                certificate.getDuration(), certificate.getUpdate(), certificate.getId());
+                certificate.getDuration(), Timestamp.valueOf(certificate.getCreateDate()),
+                Timestamp.valueOf(LocalDateTime.now()), certificate.getId());
         return certificate;
 
     }

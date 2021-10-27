@@ -59,11 +59,13 @@ public class DataConfig implements WebMvcConfigurer {
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
+
         return new JdbcTemplate(dataSource());
     }
 
     @Bean
     public DataSourceTransactionManager createTransactionManager() {
+
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(dataSource());
         return transactionManager;

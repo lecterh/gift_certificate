@@ -23,8 +23,8 @@ public class CertificateConverterImpl implements CertificateConverter {
         certificateDto.setDescription(certificate.getDescription());
         certificateDto.setPrice(certificate.getPrice());
         certificateDto.setDuration(certificate.getDuration());
-        certificateDto.setCreate(certificate.getCreate());
-        certificateDto.setUpdate(certificate.getUpdate());
+        certificateDto.setCreate(certificate.getCreateDate());
+        certificateDto.setUpdate(certificate.getUpdateDate());
         certificateDto.setTags(toDTOs(certificate.getTags()));
 
         return certificateDto;
@@ -40,8 +40,8 @@ public class CertificateConverterImpl implements CertificateConverter {
         certificate.setDescription(certificateDto.getDescription());
         certificate.setPrice(certificateDto.getPrice());
         certificate.setDuration(certificateDto.getDuration());
-        certificate.setCreate(certificateDto.getCreate());
-        certificate.setUpdate(certificateDto.getUpdate());
+        certificate.setCreateDate(certificateDto.getCreate());
+        certificate.setUpdateDate(certificateDto.getUpdate());
         certificate.setTags(toEntities(certificateDto.getTags()));
 
         return certificate;

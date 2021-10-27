@@ -14,8 +14,8 @@ public class Certificate {
     private String description;
     private BigDecimal price;
     private Integer duration;
-    private LocalDateTime create;
-    private LocalDateTime update;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private List<Tag> tags;
 
 }

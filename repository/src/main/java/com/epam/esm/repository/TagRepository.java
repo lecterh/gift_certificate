@@ -20,7 +20,7 @@ public interface TagRepository {
 
     Optional<Tag> getById(Long id);
 
-    List<Tag> getByName(String name);
+    Optional<Tag> getByName(String name);
 
     List<Tag> getByCertificate(Long id);
 

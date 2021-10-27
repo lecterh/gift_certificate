@@ -1,5 +1,7 @@
 package com.epam.esm.error;
 
+import org.springframework.stereotype.Component;
+
 public enum ErrorCode {
 
     CERTIFICATE_IS_NULL(CodeError.ERROR_0400150, MessageError.ERROR_0400150),
@@ -14,6 +16,8 @@ public enum ErrorCode {
     CERTIFICATE_DURATION_IS_NULL(CodeError.ERROR_0400159, MessageError.ERROR_0400159),
     CERTIFICATE_WITH_SAME_NAME_EXIST(CodeError.ERROR_0400160, MessageError.ERROR_0400160),
     CERTIFICATE_WITH_SAME_NAME_NOT_EXIST(CodeError.ERROR_0400161, MessageError.ERROR_0400161),
+    INCORRECT_CERTIFICATE_ID(CodeError.ERROR_0400162, MessageError.ERROR_0400162),
+    WRONG_TYPE_CERTIFICATE_ID(CodeError.ERROR_0400163, MessageError.ERROR_0400163),
 
     TAG_IS_NULL(CodeError.ERROR_0500150, MessageError.ERROR_0500150),
     TAG_NAME_IS_EMPTY(CodeError.ERROR_0500151, MessageError.ERROR_0500151),
