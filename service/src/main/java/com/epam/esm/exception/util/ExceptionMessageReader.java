@@ -1,6 +1,5 @@
 package com.epam.esm.exception.util;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.util.ResourceBundle;

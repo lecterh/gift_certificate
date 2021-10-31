@@ -1,55 +1,47 @@
 package com.epam.esm.validator;
 
 import com.epam.esm.error.ErrorCode;
-import com.epam.esm.exception.ServiceException;
+import com.epam.esm.exception.util.ThrowException;
+import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
+@Scope(value = "prototype", proxyMode= ScopedProxyMode.TARGET_CLASS)
 public class TagValidator {
 
-    final static Long MIN_ID = 5L;
-    final static int MIN_LENGTH_NAME = 3;
+    final static Long MIN_ID = 1L;
+    final static int MIN_LENGTH_NAME = 2;
     final static int MAX_LENGTH_NAME = 50;
-    private final List<ErrorCode> errors = new ArrayList<>();
+    private final List<String> validationErrors = new ArrayList<>();
+    private final ThrowException throwException;
 
-    public boolean isIdValid(Long id) {
+    public void getIdValid(Long id) {
 
-        errors.clear();
-        if (id == null) {
-            errors.add(ErrorCode.WRONG_TYPE_ID);
-        } else if (id < MIN_ID) {
-            errors.add(ErrorCode.INCORRECT_ID);
+        if (id < MIN_ID) {
+            validationErrors.add(ErrorCode.TAG_INVALID_ID.getCode());
         }
-        if (!errors.isEmpty()) {
-            throwException(errors);
+        if (!validationErrors.isEmpty()) {
+            throwException.throwValidationException(validationErrors);
         }
-        return true;
     }
 
-    public boolean isNameValid(String name) {
+    public void getNameValid(String name) {
 
-        errors.clear();
         if (name.isEmpty()) {
-            errors.add(ErrorCode.TAG_NAME_IS_EMPTY);
+            validationErrors.add(ErrorCode.TAG_NAME_IS_EMPTY.getCode());
         } else if (name.length() < MIN_LENGTH_NAME) {
-            errors.add(ErrorCode.TAG_NAME_LESS);
+            validationErrors.add(ErrorCode.TAG_NAME_LENGTH_MIN.getCode());
         } else if (name.length() > MAX_LENGTH_NAME) {
-            errors.add(ErrorCode.TAG_NAME_MORE);
+            validationErrors.add(ErrorCode.TAG_NAME_LENGTH_MAX.getCode());
         }
-        if (!errors.isEmpty()) {
-            throwException(errors);
+        if (!validationErrors.isEmpty()) {
+            throwException.throwValidationException(validationErrors);
         }
-        return true;
     }
-
-    private static void throwException(List<ErrorCode> error) {
-        for (ErrorCode er : error) {
-            throw new ServiceException(er);
-        }
-
-    }
-
 }

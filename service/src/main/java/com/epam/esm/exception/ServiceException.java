@@ -3,9 +3,9 @@ package com.epam.esm.exception;
 import com.epam.esm.error.*;
 public class ServiceException extends RuntimeException {
 
-    private final String errorCode;
+    /*private final String errorCode;
 
-    public ServiceException(ErrorCode error) {
+    public ServiceException(UnUse error) {
 
         super(error.getMessage());
         this.errorCode = error.getCode();
@@ -13,5 +13,5 @@ public class ServiceException extends RuntimeException {
 
     public String getErrorCode() {
         return errorCode;
-    }
+    }*/
 }

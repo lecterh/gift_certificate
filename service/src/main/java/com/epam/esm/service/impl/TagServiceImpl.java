@@ -3,6 +3,7 @@ package com.epam.esm.service.impl;
 import com.epam.esm.converter.TagConverter;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
+import com.epam.esm.error.ErrorCode;
 import com.epam.esm.exception.EntityDuplicateException;
 import com.epam.esm.exception.EntityNotFoundException;
 import com.epam.esm.exception.NotFoundAnyEntityException;
@@ -10,6 +11,7 @@ import com.epam.esm.repository.TagRepository;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.TagValidator;
 import lombok.AllArgsConstructor;
+import org.postgresql.shaded.com.ongres.scram.common.message.ServerFinalMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,9 +37,9 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagDto getById(Long id) {
 
-        tagValidator.isIdValid(id);
+        tagValidator.getIdValid(id);
         return converter.toDTO(tagRepository.getById(id).orElseThrow(() ->
-                new EntityNotFoundException("tag-exception-0100501", id)));
+                new EntityNotFoundException(ErrorCode.TAG_NOT_FOUND.getCode(), id)));
 
     }
 
@@ -50,9 +52,9 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagDto create(TagDto tagDto) {
 
-        tagValidator.isNameValid(converter.toEntity(tagDto).getName());
+        tagValidator.getNameValid(converter.toEntity(tagDto).getName());
         if (tagRepository.getByName(tagDto.getName()).isPresent()) {
-            throw new EntityDuplicateException("tag-exception-0100502", tagDto.getName());
+            throw new EntityDuplicateException(ErrorCode.TAG_UNIQ_NAME.getCode(), tagDto.getName());
         }
         return converter.toDTO(tagRepository.add(converter.toEntity(tagDto)));
     }
@@ -68,9 +70,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void delete(Long id) {
-        tagValidator.isIdValid(id);
+        tagValidator.getIdValid(id);
         tagRepository.getById(id).ifPresentOrElse(t -> tagRepository.delete(id), () -> {
-            throw new EntityNotFoundException("tag-exception-0100501", id);
+            throw new EntityNotFoundException(ErrorCode.TAG_NOT_FOUND.getCode(), id);
         });
     }
 }

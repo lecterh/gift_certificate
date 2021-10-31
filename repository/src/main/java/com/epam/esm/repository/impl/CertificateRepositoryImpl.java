@@ -35,6 +35,9 @@ public class CertificateRepositoryImpl implements CertificateRepository {
 
     private static final String GET_ALL = "select id, name, description, price, " +
             "duration, create_date, last_update_date from certificate";
+    /*private static final String GET_ALL = "select * from certificate c " +
+            "join certificate_tag ct on c.id = ct.certificate_id " +
+            "join tag t on t.id = ct.tag_id";*/
 
     private static final String GET_BY_ID = "select id, name, description, price, duration," +
             "create_date, last_update_date from certificate where id=?";
