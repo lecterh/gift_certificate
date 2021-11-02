@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 @RestControllerAdvice
 public class HandlerExceptionController extends ResponseEntityExceptionHandler {
+
+    private static final List<String> AVAILABLE_LOCALES = Arrays.asList("en", "ru");
+    private static final Locale CUR_LOCALE = new Locale("en");
 
     private final ExceptionMessageReader exceptionMessageReader;
 
@@ -29,7 +29,7 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
         StringBuilder sb = new StringBuilder();
         List<String> listError = new ArrayList<>(Arrays.asList(exception.getMessage().split(", ")));
         for (String el : listError) {
-            sb.append(Arrays.toString(exceptionMessageReader.readMessage(el).split(",")));
+            sb.append(Arrays.toString(exceptionMessageReader.readMessage(el, getLocale()).split(",")));
         }
         String code = String.join(",", listError);
         String message = sb.toString();
@@ -37,19 +37,12 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
         return new ExceptionEntity(message, code);
     }
 
-    /*@ExceptionHandler(ServiceException.class)
-    public ResponseEntity<ExceptionEntity> handle(ServiceException exception) {
-
-        ExceptionEntity exceptionEntity = new ExceptionEntity(exception.getMessage(), exception.getErrorCode());
-        return ResponseEntity.badRequest().body(exceptionEntity);
-    }*/
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ExceptionEntity> handle(EntityNotFoundException exception) {
 
         ExceptionEntity exceptionEntity = new ExceptionEntity(
                 messageFormat(exception.getMessage(), exception.getParam()),
-                exceptionMessageReader.readMessage(exception.getMessage()));
+                exceptionMessageReader.readMessage(exception.getMessage(), getLocale()));
         return ResponseEntity.badRequest().body(exceptionEntity);
     }
 
@@ -58,7 +51,7 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
 
         ExceptionEntity exceptionEntity = new ExceptionEntity(
                 messageFormat(exception.getMessage(), exception.getParam()),
-                exceptionMessageReader.readMessage(exception.getMessage()));
+                exceptionMessageReader.readMessage(exception.getMessage(), getLocale()));
         return ResponseEntity.badRequest().body(exceptionEntity);
     }
 
@@ -66,12 +59,19 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<ExceptionEntity> handle(NotFoundAnyEntityException exception) {
 
         ExceptionEntity exceptionEntity = new ExceptionEntity(exception.getMessage(),
-                exceptionMessageReader.readMessage(exception.getMessage()));
+                exceptionMessageReader.readMessage(exception.getMessage(), getLocale()));
         return ResponseEntity.badRequest().body(exceptionEntity);
     }
 
     public String messageFormat(String message, Object param) {
 
         return String.format("%s {input=%s}", message, param.toString());
+    }
+
+    public Locale getLocale() {
+        if (!AVAILABLE_LOCALES.contains(CUR_LOCALE.toString())) {
+            return Locale.getDefault();
+        }
+        return CUR_LOCALE;
     }
 }
