@@ -22,6 +22,13 @@ public class HandlerExceptionController extends ResponseEntityExceptionHandler {
         this.exceptionMessageReader = exceptionMessageReader;
     }
 
+    /**
+     * Get {@link ValidationException} exception message that contains all validation code errors
+     * collect each in ArrayList and find message text from bundle file.
+     *
+     * @param exception - {@link ValidationException} exception in validation
+     * @return json that contains all message errors and codes
+     */
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionEntity handleValidationException(ValidationException exception) {
