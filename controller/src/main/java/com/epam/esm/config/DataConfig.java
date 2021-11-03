@@ -15,9 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
-@PropertySource(value = "classpath:application.properties")
-//@PropertySource(value = "classpath:application-${spring.profiles.active}.properties", ignoreResourceNotFound = true)
-//@Profile("dev")
+@PropertySource(value = "classpath:application-dev.properties")
 @ComponentScan("com.epam.esm.*")
 public class DataConfig implements WebMvcConfigurer {
 
@@ -28,17 +26,17 @@ public class DataConfig implements WebMvcConfigurer {
         this.applicationContext = applicationContext;
     }
 
-    @Value("${driverClassName}")
+    @Value("${datasource.driverClassName}")
     private String driverClassName;
-    @Value("${jdbcUrl}")
+    @Value("${datasource.jdbcUrl}")
     private String jdbcUrl;
-    @Value("${dataSource.user}")
+    @Value("${datasource.user}")
     private String userName;
-    @Value("${dataSource.password}")
+    @Value("${datasource.password}")
     private String password;
-    @Value("${dataSource.maximumPoolSize}")
+    @Value("${datasource.maximumPoolSize}")
     private int maxPoolSize;
-    @Value("${dataSource.poolName}")
+    @Value("${datasource.poolName}")
     private String poolName;
 
     @Bean
