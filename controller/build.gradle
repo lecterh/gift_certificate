@@ -1,0 +1,9 @@
+apply plugin: 'war'
+war.archiveName "certificate.war"
+
+dependencies {
+
+    implementation project(':service')
+    implementation project(':repository')
+
+}
